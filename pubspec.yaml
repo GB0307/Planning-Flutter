@@ -24,6 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  planning_flutter_lib:
+    path: ./packages/planning_flutter_lib
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
