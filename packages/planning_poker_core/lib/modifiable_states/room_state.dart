@@ -1,5 +1,5 @@
-import 'package:planning_flutter_lib/modifiable_states/modifiable_state.dart';
-import 'package:planning_flutter_lib/utils/email_to_keys.dart';
+import '../utils/email_to_keys.dart';
+import 'modifiable_state.dart';
 
 class RoomState extends ModifiableState {
   RoomState(String roomId) : super(roomId, 'state');

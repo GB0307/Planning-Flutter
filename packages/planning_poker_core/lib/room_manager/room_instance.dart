@@ -1,8 +1,9 @@
 import 'package:firebase/firebase.dart';
-import 'package:planning_flutter_lib/modifiable_states/cards_state.dart';
-import 'package:planning_flutter_lib/modifiable_states/room_config.dart';
-import 'package:planning_flutter_lib/modifiable_states/room_state.dart';
-import 'package:planning_flutter_lib/modifiable_states/tasks.dart';
+
+import '../modifiable_states/cards_state.dart';
+import '../modifiable_states/room_config.dart';
+import '../modifiable_states/room_state.dart';
+import '../modifiable_states/tasks.dart';
 
 class RoomInstance {
   final String id;
@@ -51,3 +52,5 @@ class RoomInstance {
     return Future.wait(futures);
   }
 }
+
+//TODO: STREM CONTROLLERS

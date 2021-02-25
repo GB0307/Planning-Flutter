@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase/firebase.dart';
 
 abstract class ModifiableState {
@@ -7,11 +9,15 @@ abstract class ModifiableState {
 
   Map snapshot = {};
 
+  StreamController _streamController = StreamController.broadcast();
+  Stream get stream => _streamController?.stream;
+
   DatabaseReference get ref => database().ref('rooms/$roomId/$subpath');
 
   ModifiableState(this.roomId, this.subpath);
 
   void loadFromJson(Map json);
+
   Map<String, dynamic> toJson();
 
   void discartChanges() => loadFromJson(snapshot);
@@ -29,7 +35,17 @@ abstract class ModifiableState {
     loadFromJson(snapshot);
   }
 
+  void update() {
+    _streamController.add(this);
+  }
+
   void subscribe() {}
 
-  void dispose() {}
+  void unsubscribe() {}
+
+  void dispose() {
+    unsubscribe();
+    _streamController.close();
+    _streamController = null;
+  }
 }

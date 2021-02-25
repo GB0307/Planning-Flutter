@@ -24,8 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  planning_flutter_lib:
-    path: ./packages/planning_flutter_lib
+  planning_poker_core:
+    path: ./packages/planning_poker_core
 
 
   # The following adds the Cupertino Icons font to your application.

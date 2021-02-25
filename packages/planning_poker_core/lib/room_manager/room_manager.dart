@@ -1,6 +1,6 @@
 import 'package:firebase/firebase.dart';
-import 'package:planning_flutter_lib/utils/email_to_keys.dart';
 
+import '../utils/email_to_keys.dart';
 import 'room_instance.dart';
 
 class RoomManager {

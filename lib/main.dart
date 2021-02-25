@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:planning_flutter_lib/planning_flutter_lib.dart';
-import 'package:planning_flutter_lib/room_manager/room_instance.dart';
+import 'package:planning_poker_core/planning_poker_core.dart';
+import 'package:planning_poker_core/room_manager/room_instance.dart';
 
 void main() {
-  PlanningFlutter.init();
+  PlanningPoker.init();
   runApp(MyApp());
 }
 
@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  RoomInstance room;
-
   @override
   Widget build(BuildContext context) {
+    RoomInstance room;
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +31,7 @@ class MyHomePage extends StatelessWidget {
           SizedBox(width: double.infinity),
           ElevatedButton(
             onPressed: () async {
-              room = await PlanningFlutter.instance
+              room = await PlanningPoker.instance
                   .createRoom('oi@gmail.com', 'GB', '1234');
 
               print('CREATED A ROOM WITH ID ${room.id}');

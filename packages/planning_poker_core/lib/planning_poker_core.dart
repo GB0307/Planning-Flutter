@@ -1,22 +1,22 @@
-library planning_flutter_lib;
+library planning_poker_core;
 
 import 'package:firebase/firebase.dart';
 
 import 'room_manager/room_instance.dart';
 import 'room_manager/room_manager.dart';
 
-class PlanningFlutter {
-  static PlanningFlutter get instance => PlanningFlutter._();
-  static PlanningFlutter _instance;
+class PlanningPoker {
+  static PlanningPoker get instance => PlanningPoker._();
+  static PlanningPoker _instance;
 
   RoomManager _roomManager = RoomManager();
 
-  factory PlanningFlutter() {
-    if (_instance == null) _instance = PlanningFlutter._();
+  factory PlanningPoker() {
+    if (_instance == null) _instance = PlanningPoker._();
     return _instance;
   }
 
-  PlanningFlutter._();
+  PlanningPoker._();
 
   Future<RoomInstance> createRoom(
           String email, String nickname, String password) =>

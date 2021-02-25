@@ -1,5 +1,4 @@
-import 'package:planning_flutter_lib/modifiable_states/modifiable_state.dart';
-
+import 'modifiable_state.dart';
 import 'modifiable_state_list.dart';
 
 class TaskList extends ModifiableStateList<Task> {
