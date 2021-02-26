@@ -2,7 +2,7 @@ import '../utils/email_to_keys.dart';
 import 'modifiable_state.dart';
 
 class RoomState extends ModifiableState {
-  RoomState(String roomId) : super(roomId, 'state');
+  RoomState(String roomId) : super(roomId, 'state', subscribe: true);
 
   bool cardsFlipped;
   int currentTask;

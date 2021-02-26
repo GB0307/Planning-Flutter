@@ -6,7 +6,9 @@ import 'room_instance.dart';
 class RoomManager {
   Database get db => database();
 
-  Future<RoomInstance> enterRoom() async {}
+  Future<RoomInstance> enterRoom() async {
+    //TODO: ENTER ROOM
+  }
 
   Future<RoomInstance> createRoom(
       String email, String nickname, String password) async {

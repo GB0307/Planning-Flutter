@@ -12,9 +12,24 @@ abstract class ModifiableState {
   StreamController _streamController = StreamController.broadcast();
   Stream get stream => _streamController?.stream;
 
+  StreamSubscription _subscription;
+  bool get subscribed => _subscription != null;
+
+  Function onLoad;
+
   DatabaseReference get ref => database().ref('rooms/$roomId/$subpath');
 
-  ModifiableState(this.roomId, this.subpath);
+  ModifiableState(this.roomId, this.subpath,
+      {Map<String, dynamic> initialValue,
+      bool subscribe = false,
+      this.onLoad}) {
+    if (subscribe) _subscribe();
+    if (initialValue != null) {
+      snapshot = initialValue;
+      loadFromJson(initialValue);
+      update();
+    }
+  }
 
   void loadFromJson(Map json);
 
@@ -22,9 +37,16 @@ abstract class ModifiableState {
 
   void discartChanges() => loadFromJson(snapshot);
 
-  Future<void> save() {
+  void setChanges([Map<String, dynamic> json, bool shouldUpdate = true]) {
+    if (json != null) snapshot = json;
+    loadFromJson(snapshot);
+    if (shouldUpdate) update();
+  }
+
+  Future<void> save() async {
     var data = toJson();
-    return ref.set(data);
+    await ref.set(data);
+    update();
   }
 
   Future load() async {
@@ -33,19 +55,31 @@ abstract class ModifiableState {
 
     snapshot = map;
     loadFromJson(snapshot);
+    update();
+    onLoad?.call();
   }
 
   void update() {
-    _streamController.add(this);
+    _streamController?.add(this);
   }
 
-  void subscribe() {}
+  void _subscribe() {
+    _subscription = ref.onValue.listen((event) {
+      snapshot = (event.snapshot?.toJson() ?? {});
+      loadFromJson(snapshot);
+      update();
+    });
+  }
 
-  void unsubscribe() {}
+  void _unsubscribe() {
+    _subscription?.cancel();
+    _subscription = null;
+  }
 
   void dispose() {
-    unsubscribe();
-    _streamController.close();
+    _unsubscribe();
+
+    _streamController?.close();
     _streamController = null;
   }
 }

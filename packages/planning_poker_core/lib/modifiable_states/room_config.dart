@@ -14,7 +14,7 @@ class RoomConfig extends ModifiableState {
   EffortPolicy effortPolicy = EffortPolicy.Max; // TODO: implement effort policy
   CardSetup cardSetup = CardSetup.Fibbonacci; // TODO: implement card setup
 
-  RoomConfig(String roomId) : super(roomId, 'config');
+  RoomConfig(String roomId) : super(roomId, 'config', subscribe: true);
 
   @override
   void loadFromJson(Map json) {

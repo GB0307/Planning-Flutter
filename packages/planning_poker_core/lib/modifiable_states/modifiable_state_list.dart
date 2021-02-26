@@ -2,7 +2,10 @@ import 'modifiable_state.dart';
 
 abstract class ModifiableStateList<T extends ModifiableState>
     extends ModifiableState {
-  ModifiableStateList(String roomId, String subpath) : super(roomId, subpath);
+  ModifiableStateList(String roomId, String subpath,
+      {Map initialValue, bool subscribe = false})
+      : super(roomId, subpath,
+            initialValue: initialValue, subscribe: subscribe);
 
   Map<String, T> stateMap = {};
   List<T> get states => stateMap.values.toList();
@@ -12,18 +15,10 @@ abstract class ModifiableStateList<T extends ModifiableState>
 
     await ref.set(data);
 
-    stateMap.forEach((key, value) {
-      value.snapshot = data[key];
-      value.discartChanges();
-    });
-  }
-
-  Future load() async {
-    var val = await ref.once('value');
-    var map = (val.snapshot?.toJson() ?? {});
-
-    snapshot = map;
-    loadFromJson(snapshot);
+    stateMap.forEach(
+      (key, value) => value.setChanges(data[key]),
+    );
+    if (!subscribed) update(); // IF TO PREVENT DOUBLE UPDATE IF SUBSCRIBED
   }
 
   Future remove(String key) {
@@ -36,8 +31,7 @@ abstract class ModifiableStateList<T extends ModifiableState>
     json.forEach((key, value) {
       if (stateMap.containsKey(key)) {
         // There is already one instance, just update it
-        stateMap[key].snapshot = json[key];
-        stateMap[key].discartChanges();
+        stateMap[key].setChanges(json[key]);
       } else {
         // No instance, create one
         stateMap[key] = createState(key, json);
